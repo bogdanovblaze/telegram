@@ -35,7 +35,7 @@ class Participants:
                 print('Participants:check():if(find[false]):if(author[true]) author add list ->', author)
                 return True
             else:
-                print('Participants:check():if(find[false]):else(author[false])')
+                # print('Participants:check():if(find[false]):else(author[false])')
                 res = await self.client(GetFullUserRequest(authorId))
                 print('Participants:check():if(find[false]):else(author[false]) res = ', res)
                 user = res.user
@@ -46,7 +46,7 @@ class Participants:
                     lastName=user.last_name,
                     _id=authorId
                 )
-                print(f"Автор '{author.firstName} {author.lastName} ({author.userName})' добавлен в БД")
+                # print(f"Автор '{author.firstName} {author.lastName} ({author.userName})' добавлен в БД")
 
                 print("Participants:check():if(find[false]):else(author[false]) author ->", author)
                 self.db.authors.add(author)
