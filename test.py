@@ -1,3 +1,3 @@
-import datetime
+name_app = app.py
 
-print(datetime.datetime.now())
+name_session = ["anon", "InterNationalChatting", "twochannel"]

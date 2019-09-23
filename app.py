@@ -2,13 +2,10 @@ from telethon import TelegramClient, sync, events, functions
 
 import configparser
 import os
-import pdb
 
 from models.messages import Messages
 from models.channels import Channels
-from models.authors import Authors
 from models.db import Entity
-
 from lib.participants import Participants
 
 import logging
