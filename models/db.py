@@ -44,13 +44,13 @@ class Entity(metaclass=EntityMeta):
     @property
     def messages(self):
         if self._messages is None:
-            self._messages = MessagesDb(self.db["messages"])
-            print('Entyty : MessagesDb: [ Create object ]', self._channels)
+            self._messages = MessagesDb(self.db['message'])
+            print('Entyty : MessagesDb: [ Create object ]', self._messages)
         return self._messages
 
     @property
     def channels(self):
         if self._channels is None:
-            self._channels = ChannelsDb(self.db["channels"])
+            self._channels = ChannelsDb(self.db)
             print('Entyty : ChannelsDb: [ Create object ]', self._channels)
         return self._channels

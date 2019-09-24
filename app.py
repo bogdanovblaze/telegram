@@ -9,7 +9,7 @@ from models.db import Entity
 from lib.participants import Participants
 
 import logging
-logging.basicConfig(filename="sample.log", filemode="w", level=logging.DEBUG)
+logging.basicConfig(filename="sample2.log", filemode="w", level=logging.DEBUG)
 
 
 def main():
@@ -22,10 +22,10 @@ def main():
     # region TelegramConfig
     api_id = config.get("Settings", "api_id")
     api_hash = config.get("Settings", "api_hash")
-    channel_url = config.get("Settings", "channel_url")
+    channel_url = config.get("Settings", "channel_url")  # 1
     # endregion
 
-    with TelegramClient('anon', api_id, api_hash) as client:
+    with TelegramClient('anon', api_id, api_hash) as client:  # 2
         # Переменная, необходимая для получения channel.titile
         channel = client(functions.channels.GetFullChannelRequest(channel_url))
 
@@ -65,7 +65,7 @@ def main():
                 )
             else:
                 print('app.py:if(check[false])')
-                print('Telegram :: Ошибка получение пользователя по Id\n')
+                print('Telegram :: Ошибка получения пользователя по Id\n')
 
             print("\n", "=-> "*20, "\n", sep="")
 

@@ -1,10 +1,17 @@
-from pymongo import MongoClient
+from models.db import Entity
+from models.channels import Channels
 
-client = MongoClient(
-    "mongodb+srv://blaze_telegram:zCe-aqC-Ps3-234@telegram-srtxa.mongodb.net/test?retryWrites=true&w=majority"
-)
-db = client['Telegram']
-if "authors" in db.list_collection_names():
-    print('in')
-else:
-    print('not exist')
+
+db = Entity()
+db.channels.add(
+            Channels(
+                "Двач",
+                "https://t.me/twochannel",
+                1003073997,
+            )
+        )
+
+
+
+
+

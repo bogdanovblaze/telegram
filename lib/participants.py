@@ -32,12 +32,13 @@ class Participants:
                         _id=authorId
                     )
                 )
-                print('Participants:check():if(find[false]):if(author[true]) author add list ->', author)
+                print(
+                    'Participants:check():if(find[false]):if(author[true]) author add list ->', author)
                 return True
             else:
                 # print('Participants:check():if(find[false]):else(author[false])')
                 res = await self.client(GetFullUserRequest(authorId))
-                print('Participants:check():if(find[false]):else(author[false]) res = ', res)
+                # print('Participants:check():if(find[false]):else(author[false]) res = ', res)
                 user = res.user
 
                 author = Authors(
