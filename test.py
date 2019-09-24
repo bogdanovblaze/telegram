@@ -1,3 +1,10 @@
-name_app = app.py
+from pymongo import MongoClient
 
-name_session = ["anon", "InterNationalChatting", "twochannel"]
+client = MongoClient(
+    "mongodb+srv://blaze_telegram:zCe-aqC-Ps3-234@telegram-srtxa.mongodb.net/test?retryWrites=true&w=majority"
+)
+db = client['Telegram']
+if "authors" in db.list_collection_names():
+    print('in')
+else:
+    print('not exist')

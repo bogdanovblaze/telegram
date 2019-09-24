@@ -37,7 +37,7 @@ class Entity(metaclass=EntityMeta):
     @property
     def authors(self):
         if self._authors is None:
-            self._authors = AuthorsDb(self.db["authors"])
+            self._authors = AuthorsDb(self.db)
             print('Entyty : AuthorsDb: [ Create object ]', self.authors)
         return self._authors
 
