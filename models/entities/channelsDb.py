@@ -1,18 +1,11 @@
-class ChannelsDb():
+from models.entities.checkCollection import checkCollection
+
+
+class ChannelsDb:
     def __init__(self, db):
         self.db = db
-        self.collectionName = 'cahnnels'
+        self.collectionName = 'channels'
         self.collection = self.db[self.collectionName]
-
-    # декоратор
-    def checkCollection(func):
-        def wrapper(self, object):
-            if self.collectionName in self.db.list_collection_names():
-                return func(self, object)
-            else:
-                print("ChannelsDb : checkCollection[else]")
-                return None
-        return wrapper
 
     @checkCollection
     def add(self, object):

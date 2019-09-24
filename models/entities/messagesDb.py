@@ -1,4 +1,4 @@
-class MessagesDb():
+class MessagesDb:
     def __init__(self, collection):
         # print('\tMessagesDb : __init__')
         self.collection = collection
