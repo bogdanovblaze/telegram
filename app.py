@@ -2,6 +2,8 @@ from telethon import TelegramClient, sync, events, functions
 
 import configparser
 import os
+import sys
+import argparse
 
 from models.messages import Messages
 from models.channels import Channels
@@ -12,6 +14,15 @@ import logging
 logging.basicConfig(filename="sample2.log", filemode="w", level=logging.DEBUG)
 
 
+def createParser ():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-ns', '--name_session', type=str)
+    parser.add_argument('-ai', '--api_id', type=int)
+    parser.add_argument('-ah', '--api_hash', type=str)
+    parser.add_argument('-uc', '--url_channel', type=str)
+    return parser
+
+
 def main():
     # region config
     path = os.path.join(os.getcwd(), "config", "settings.ini")
@@ -20,12 +31,16 @@ def main():
     # endregion
 
     # region TelegramConfig
-    api_id = config.get("Settings", "api_id")
-    api_hash = config.get("Settings", "api_hash")
-    channel_url = config.get("Settings", "channel_url")  # 1
+    api_id = script_parameters.api_id
+    api_hash = script_parameters.api_hash
+    channel_url = script_parameters.url_channel
     # endregion
 
-    with TelegramClient('anon', api_id, api_hash) as client:  # 2
+    # api_id = config.get("Settings", script_parameters.api_id)
+    # api_hash = config.get("Settings", script_parameters.api_hash)
+    # channel_url = config.get("Settings", script_parameters.url_channel)  # 1
+
+    with TelegramClient(script_parameters.name_session, api_id, api_hash) as client:  # 2
         # Переменная, необходимая для получения channel.titile
         channel = client(functions.channels.GetFullChannelRequest(channel_url))
 
@@ -73,4 +88,8 @@ def main():
 
 
 if __name__ == '__main__':
+    parser = createParser()
+    script_parameters = parser.parse_args(sys.argv[1:])
+    script_parameters.name_session += ".session"
+
     main()
