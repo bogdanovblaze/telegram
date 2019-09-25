@@ -1,5 +1,5 @@
 from models.entities.checkCollection import checkCollection
-
+from models.authors import Authors
 
 class AuthorsDb:
     def __init__(self, db):
@@ -14,4 +14,12 @@ class AuthorsDb:
     @checkCollection
     def getById(self, authorId):
         # print("authorsDb:getById()")
-        return self.collection.find_one({"_id": authorId})
+        author = self.collection.find_one({"_id": authorId})
+        if author:
+            return Authors(
+                userName=author["userName"],
+                firstName=author["first_name"],
+                lastName=author["last_name"],
+                _id=authorId
+            )
+        return None

@@ -2,6 +2,7 @@ from telethon import TelegramClient, sync, events, functions
 
 import configparser
 import os
+from datetime import datetime
 
 from models.messages import Messages
 from models.channels import Channels
@@ -60,7 +61,8 @@ def main():
                         event.to_id.channel_id,
                         event.from_id,
                         event.message,
-                        event.id
+                        event.id,
+                        datetime.now()
                     )
                 )
             else:

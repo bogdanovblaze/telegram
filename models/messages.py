@@ -8,4 +8,4 @@ class Messages:
     authorId: int
     message: str
     _id: int
-    createAt: datetime = datetime.now()
+    createAt: str

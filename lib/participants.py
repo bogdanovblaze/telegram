@@ -1,5 +1,7 @@
 from telethon.tl.functions.users import GetFullUserRequest
 from models.authors import Authors
+
+
 # import pdb
 
 
@@ -24,14 +26,7 @@ class Participants:
             author = self.db.authors.getById(authorId)
             if author:
 
-                self.list.append(
-                    Authors(
-                        userName=author.get("userName", ""),
-                        firstName=author.get("firstName", ""),
-                        lastName=author.get("lastName", ""),
-                        _id=authorId
-                    )
-                )
+                self.list.append(author)
                 print(
                     'Participants:check():if(find[false]):if(author[true]) author add list ->', author)
                 return True

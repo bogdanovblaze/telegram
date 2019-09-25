@@ -4,6 +4,7 @@ import configparser
 import os
 import sys
 import argparse
+from datetime import datetime
 
 from models.messages import Messages
 from models.channels import Channels
@@ -11,10 +12,10 @@ from models.db import Entity
 from lib.participants import Participants
 
 import logging
-logging.basicConfig(filename="sample2.log", filemode="w", level=logging.DEBUG)
+logging.basicConfig(filename="sample.log", filemode="w", level=logging.DEBUG)
 
 
-def createParser ():
+def createParser():
     parser = argparse.ArgumentParser()
     parser.add_argument('-ns', '--name_session', type=str)
     parser.add_argument('-ai', '--api_id', type=int)
@@ -24,6 +25,10 @@ def createParser ():
 
 
 def main():
+    parser = createParser()
+    script_parameters = parser.parse_args(sys.argv[1:])
+    script_parameters.name_session += ".session"
+
     # region config
     path = os.path.join(os.getcwd(), "config", "settings.ini")
     config = configparser.ConfigParser()
@@ -75,7 +80,8 @@ def main():
                         event.to_id.channel_id,
                         event.from_id,
                         event.message,
-                        event.id
+                        event.id,
+                        datetime.now()
                     )
                 )
             else:
@@ -88,8 +94,4 @@ def main():
 
 
 if __name__ == '__main__':
-    parser = createParser()
-    script_parameters = parser.parse_args(sys.argv[1:])
-    script_parameters.name_session += ".session"
-
     main()
