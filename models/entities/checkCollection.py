@@ -1,3 +1,8 @@
+import logging
+module_logger = logging.getLogger("app.checkCollection")
+logger = logging.getLogger("app.checkCollection")
+
+
 # декоратор
 def checkCollection(func):
     def wrapper(*args, **kwargs):
@@ -6,7 +11,7 @@ def checkCollection(func):
         if self.collectionName in self.db.list_collection_names():
             return func(*args, **kwargs)
         else:
-            print(f'Collection "{self.collectionName}" not found')
+            logger.info(f'Collection "{self.collectionName}" not found')
             return None
 
     return wrapper

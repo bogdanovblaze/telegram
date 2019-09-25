@@ -12,22 +12,33 @@ from models.db import Entity
 from lib.participants import Participants
 
 import logging
-logging.basicConfig(filename="sample.log", filemode="w", level=logging.DEBUG)
 
 
-def createParser():
+def main():
+    # region logging
+    logger = logging.getLogger("app")
+    logger.setLevel(logging.INFO)
+
+    # create the logging file handler
+    fh = logging.FileHandler("sample.log")
+
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(name)s - %(message)s')
+    fh.setFormatter(formatter)
+
+    # add handler to logger object
+    logger.addHandler(fh)
+    # endregion
+
+    # region parser cmd
     parser = argparse.ArgumentParser()
     parser.add_argument('-ns', '--name_session', type=str, required=True)
     parser.add_argument('-ai', '--api_id', type=int, required=True)
     parser.add_argument('-ah', '--api_hash', type=str, required=True)
     parser.add_argument('-uc', '--url_channel', type=str, required=True)
-    return parser
 
-
-def main():
-    parser = createParser()
     script_parameters = parser.parse_args(sys.argv[1:])
     script_parameters.name_session += ".session"
+    # endregion
 
     # region config
     path = os.path.join(os.getcwd(), "config", "settings.ini")
@@ -50,7 +61,7 @@ def main():
 
         # Создание объекта участники для провеки авторов сообщений
         participants = Participants(db, client)
-        logging.info("start app.py")
+        logger.info("start app.py")
 
         db.channels.add(
             Channels(
@@ -63,14 +74,14 @@ def main():
         # создание события, которое срабатывает при появлении нового сообщения
         @client.on(events.NewMessage(channel_url))
         async def handlerNewMessage(event):
-            logging.info("app.py:events.NewMessage")
+            logger.info("app.py:events.NewMessage")
 
             event = event.message
             check = await participants.check(event.from_id)
             # print('app.py:check = ', check)
 
             if check:
-                logging.info("app.py:if(check[true])")
+                logger.info("app.py:if(check[true])")
                 db.messages.add(
                     Messages(
                         event.to_id.channel_id,
@@ -81,10 +92,10 @@ def main():
                     )
                 )
             else:
-                logging.info('app.py:if(check[false])')
-                logging.info('Telegram :: Ошибка получения пользователя по Id\n')
+                logger.info('app.py:if(check[false])')
+                logger.info('Telegram :: Ошибка получения пользователя по Id\n')
 
-            print("\n", "=-> "*20, "\n", sep="")
+            print("- "*20, sep="")
 
         client.run_until_disconnected()
 
