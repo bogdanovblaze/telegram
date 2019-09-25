@@ -5,6 +5,9 @@ from models.entities.authorsDb import AuthorsDb
 from models.entities.messagesDb import MessagesDb
 from models.entities.channelsDb import ChannelsDb
 
+import logging
+logging.basicConfig(filename="sample.log", filemode="w", level=logging.DEBUG)
+
 
 class EntityMeta(type):
     _instance: Optional[Entity] = None
@@ -32,25 +35,25 @@ class Entity(metaclass=EntityMeta):
 
         self.db = client.Telegram
         # print(self.db)
-        print('mongo : [ connected ]')
+        logging.info('mongo : [ connected ]')
 
     @property
     def authors(self):
         if self._authors is None:
             self._authors = AuthorsDb(self.db)
-            print('Entyty : AuthorsDb: [ Create object ]', self.authors)
+            logging.info('Entyty : AuthorsDb: [ Create object ]')
         return self._authors
 
     @property
     def messages(self):
         if self._messages is None:
             self._messages = MessagesDb(self.db['message'])
-            print('Entyty : MessagesDb: [ Create object ]', self._messages)
+            logging.info('Entyty : MessagesDb: [ Create object ]')
         return self._messages
 
     @property
     def channels(self):
         if self._channels is None:
             self._channels = ChannelsDb(self.db)
-            print('Entyty : ChannelsDb: [ Create object ]', self._channels)
+            logging.info('Entyty : ChannelsDb: [ Create object ]')
         return self._channels

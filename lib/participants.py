@@ -1,8 +1,7 @@
 from telethon.tl.functions.users import GetFullUserRequest
 from models.authors import Authors
-
-
-# import pdb
+import logging
+logging.basicConfig(filename="sample.log", level=logging.INFO)
 
 
 class Participants:
@@ -12,7 +11,7 @@ class Participants:
         self.list = []
 
     def find(self, authorId) -> bool:
-        print('Participants:find()')
+        logging.info('Participants:find()')
         for author in self.list:
             if author._id == authorId:
                 return True
@@ -20,14 +19,14 @@ class Participants:
 
     async def check(self, authorId) -> bool:
         # pdb.set_trace()
-        print('Participants:check()')
+        logging.info('Participants:check()')
         if not self.find(authorId):
-            print('Participants:check():if(find[false])')
+            logging.info('Participants:check():if(find[false])')
             author = self.db.authors.getById(authorId)
             if author:
 
                 self.list.append(author)
-                print(
+                logging.info(
                     'Participants:check():if(find[false]):if(author[true]) author add list ->', author)
                 return True
             else:
@@ -44,10 +43,10 @@ class Participants:
                 )
                 # print(f"Автор '{author.firstName} {author.lastName} ({author.userName})' добавлен в БД")
 
-                print("Participants:check():if(find[false]):else(author[false]) author ->", author)
+                logging.info("Participants:check():if(find[false]):else(author[false]) author")
                 self.db.authors.add(author)
                 self.list.append(author)
                 return True
         else:
-            print('Participants:check():if(find[true])')
+            logging.info('Participants:check():if(find[true])')
             return True

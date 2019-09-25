@@ -17,10 +17,10 @@ logging.basicConfig(filename="sample.log", filemode="w", level=logging.DEBUG)
 
 def createParser():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-ns', '--name_session', type=str)
-    parser.add_argument('-ai', '--api_id', type=int)
-    parser.add_argument('-ah', '--api_hash', type=str)
-    parser.add_argument('-uc', '--url_channel', type=str)
+    parser.add_argument('-ns', '--name_session', type=str, required=True)
+    parser.add_argument('-ai', '--api_id', type=int, required=True)
+    parser.add_argument('-ah', '--api_hash', type=str, required=True)
+    parser.add_argument('-uc', '--url_channel', type=str, required=True)
     return parser
 
 
@@ -41,11 +41,7 @@ def main():
     channel_url = script_parameters.url_channel
     # endregion
 
-    # api_id = config.get("Settings", script_parameters.api_id)
-    # api_hash = config.get("Settings", script_parameters.api_hash)
-    # channel_url = config.get("Settings", script_parameters.url_channel)  # 1
-
-    with TelegramClient(script_parameters.name_session, api_id, api_hash) as client:  # 2
+    with TelegramClient(script_parameters.name_session, api_id, api_hash) as client:
         # Переменная, необходимая для получения channel.titile
         channel = client(functions.channels.GetFullChannelRequest(channel_url))
 
@@ -54,7 +50,7 @@ def main():
 
         # Создание объекта участники для провеки авторов сообщений
         participants = Participants(db, client)
-        print('start\n')
+        logging.info("start app.py")
 
         db.channels.add(
             Channels(
@@ -67,14 +63,14 @@ def main():
         # создание события, которое срабатывает при появлении нового сообщения
         @client.on(events.NewMessage(channel_url))
         async def handlerNewMessage(event):
-            print('app.py:events.NewMessage')
+            logging.info("app.py:events.NewMessage")
 
             event = event.message
             check = await participants.check(event.from_id)
             # print('app.py:check = ', check)
 
             if check:
-                print('app.py:if(check[true])')
+                logging.info("app.py:if(check[true])")
                 db.messages.add(
                     Messages(
                         event.to_id.channel_id,
@@ -85,8 +81,8 @@ def main():
                     )
                 )
             else:
-                print('app.py:if(check[false])')
-                print('Telegram :: Ошибка получения пользователя по Id\n')
+                logging.info('app.py:if(check[false])')
+                logging.info('Telegram :: Ошибка получения пользователя по Id\n')
 
             print("\n", "=-> "*20, "\n", sep="")
 
