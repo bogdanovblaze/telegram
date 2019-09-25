@@ -18,8 +18,8 @@ class AuthorsDb:
         if author:
             return Authors(
                 userName=author["userName"],
-                firstName=author["first_name"],
-                lastName=author["last_name"],
+                firstName=author["firstName"],
+                lastName=author["lastName"],
                 _id=authorId
             )
         return None
