@@ -2,4 +2,4 @@
 
 command for run app.py from cmd:
 
-python app.py -ns InterNationalChatting -ai 935780 -ah c9bfa2fc6011d4a92d401b08a27e15b5 -uc https://t.me/InterNationalChatting
+python app.py -ns name_session -ai api_id -ah api_hash -uc url_channel
